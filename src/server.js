@@ -9,9 +9,8 @@ app.use(express.urlencoded({ extended: true }));
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const vendedorRoutes = require('./routes/vendedorRoutes');
 const compraRoutes = require('./routes/compraRoutes');
-const homeRoutes = require('./routes/homeRoutes');
 const AdmRoutes = require('./routes/AdmRoutes');
-app.use('/', homeRoutes);
+
 app.use('/usuarios', usuarioRoutes);
 app.use('/compras', compraRoutes);
 app.use('/artesao', vendedorRoutes);

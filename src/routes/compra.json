@@ -1,0 +1,24 @@
+[
+      {
+        "pedido": "001",
+        "status": "Concluído",
+        "data": "2023-05-28",
+        "valor": 99.99
+      },
+      
+      {
+        "pedido": "002",
+        "status": "Em andamento",
+        "data": "2023-05-29",
+        "valor": 49.99
+      },
+
+      {
+        "pedido": "003",
+        "status": "Pendente",
+        "data": "2023-05-30",
+        "valor": 79.99
+      }
+]
+  
+  
