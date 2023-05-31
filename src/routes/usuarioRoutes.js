@@ -1,21 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const usuarioController = require('../controllers/UsuarioController');
 
-router.post('/signin', (req, res) => {
-  res.json({ message: 'Rota de login ' });
-});
-router.post('/signup', (req, res) => {
-  res.json({ message: 'rota de tela de cadastro' });
-});
+router.post('/', usuarioController.addUsuario); // Cria um registro
+router.get('/', usuarioController.listaUsuarios); // Lista todos os registros
+router.get('/:id', usuarioController.umUsuario); // Busca um registro através do ID
+router.delete('/:id', usuarioController.removeUsuario); // Deleta um registro através do ID
 
-router.post('/forgot-password', (req, res) => {
-    res.json({ message: 'rota de esqueceu a senha' });
-  });
-
-  router.post('/reset-password ', (req, res) => {
-    res.json({ message: 'rota redifinir senha ' });
-  });
-
-
-  
 module.exports = router;
