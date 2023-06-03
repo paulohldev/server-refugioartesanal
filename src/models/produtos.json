@@ -1,0 +1,20 @@
+[
+    {
+    "id":1,
+    "nome":"Panela",
+    "valor":15.90,
+    "descrição":"panela de revestimento Cerâmico"
+},
+{
+    "id":2,
+    "nome":"Bolsa",
+    "valor":19.90,
+    "descrição":"Bolsa feita de fio de malha"
+},
+{
+    "id":3,
+    "nome":"Caneca",
+    "valor":10.0,
+    "descrição":"Caneca Decorativa"
+}
+]

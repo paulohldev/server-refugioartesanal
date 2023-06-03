@@ -12,9 +12,13 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 // const AdmRoutes = require('./routes/AdmRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 
+const ProdutosRoutes=require('./routes/ProdutosRoutes');
+
 app.use('/usuarios', usuarioRoutes);
 // app.use('/compras', compraRoutes);
 app.use('/categorias', categoriaRoutes);
+
+app.use('/produtos',ProdutosRoutes);
 // app.use('/artesao', vendedorRoutes);
 // app.use('/administracao', AdmRoutes);
 
