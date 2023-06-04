@@ -13,12 +13,15 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 
 const ProdutosRoutes=require('./routes/ProdutosRoutes');
+const pedidosRoutes=require('./routes/pedidosRoutes');
 
 app.use('/usuarios', usuarioRoutes);
 // app.use('/compras', compraRoutes);
 app.use('/categorias', categoriaRoutes);
 
 app.use('/produtos',ProdutosRoutes);
+
+app.use('/pedidos',pedidosRoutes);
 // app.use('/artesao', vendedorRoutes);
 // app.use('/administracao', AdmRoutes);
 

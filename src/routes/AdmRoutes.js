@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
+
 const usuarios= require("./usuario.json")
+
+
 router.get('/validacaoproduto', (req, res) => {
   res.json({ usuarios: usuarios });
 });
