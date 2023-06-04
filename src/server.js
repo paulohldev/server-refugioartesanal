@@ -12,14 +12,14 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 // const AdmRoutes = require('./routes/AdmRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 
-const ProdutosRoutes=require('./routes/ProdutosRoutes');
+const produtosRoutes=require('./routes/produtosRoutes');
 const pedidosRoutes=require('./routes/pedidosRoutes');
 
 app.use('/usuarios', usuarioRoutes);
 // app.use('/compras', compraRoutes);
 app.use('/categorias', categoriaRoutes);
 
-app.use('/produtos',ProdutosRoutes);
+app.use('/produtos',produtosRoutes);
 
 app.use('/pedidos',pedidosRoutes);
 // app.use('/artesao', vendedorRoutes);

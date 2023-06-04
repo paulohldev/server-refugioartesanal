@@ -1,4 +1,4 @@
-const produtosJson = require('../models/produtos.json');
+const produtosJson = require('./produtos.json');
 
 const findAll = async () => {
   try {

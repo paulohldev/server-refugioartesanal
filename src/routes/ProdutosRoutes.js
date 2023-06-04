@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const ProdutosController = require('../controllers/ProdutosController');
+const ProdutoController = require('../controllers/ProdutoController');
 
-router.post('/', ProdutosController.addProdutos); // Cria um registro
-router.get('/', ProdutosController.listaProdutos); // Lista todos os registros
-router.get('/:id', ProdutosController.umProdutos); // Busca um registro através do ID
-router.delete('/:id', ProdutosController.removeProdutos); // Deleta um registro através do ID
+router.post('/', ProdutoController.addProdutos); // Cria um registro
+router.get('/', ProdutoController.listaProdutos); // Lista todos os registros
+router.get('/:id', ProdutoController.umProdutos); // Busca um registro através do ID
+router.delete('/:id', ProdutoController.removeProdutos); // Deleta um registro através do ID
 
 module.exports = router;

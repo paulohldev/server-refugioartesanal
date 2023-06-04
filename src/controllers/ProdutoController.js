@@ -1,6 +1,6 @@
-const ProdutosModel = require('../models/Produtos');
+const ProdutosModel = require('../models/Produto');
 
-const ProdutosController = {
+const ProdutoController = {
   listaProdutos: async (req, res) => {
     try {
       const produtos = await ProdutosModel.findAll();
