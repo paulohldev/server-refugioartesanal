@@ -12,6 +12,7 @@ const findAll = async () => {
 // Método para listar uma categoria do arquivo json
 const findOne = async (id) => {
   try {
+  
     return await categoriaJson.filter((categoria) => categoria.id == id);
   } catch (error) {
     return error;

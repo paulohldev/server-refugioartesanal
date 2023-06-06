@@ -23,8 +23,15 @@ const PedidoController = {
   
     umapedidos: async (req, res) => {
       try {
-        const Pedidos = await pedidosModel.findOne(req.params.id);
-        return res.json(Pedidos);
+        const {id }=req.params;
+
+        const pedidos = await pedidosModel.findOne(req.params.id);
+        
+        if (!pedidos.length){
+           return res.status(400).json({mensage:"usuario não existe"})
+        }
+        return res.json(pedidos);
+
       } catch (error) {
         return res.json(error);
       }

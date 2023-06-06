@@ -25,7 +25,13 @@ const CategoriaController = {
 
   umaCategoria: async (req, res) => {
     try {
+      const {id }=req.params;
+
       const categoria = await categoriaModel.findOne(req.params.id);
+      
+      if (!categoria.length){
+         return res.status(400).json({mensage:"Essa categoria não existe"})
+      }
       return res.json(categoria);
     } catch (error) {
       return res.json(error);
