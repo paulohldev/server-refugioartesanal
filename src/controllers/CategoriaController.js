@@ -35,11 +35,11 @@ const CategoriaController = {
     try {
       const { id } = req.params;
 
-      if (!id) {
+      const categoria = await categoriaModel.findOne(id);
+      if (!categoria.length) {
         return res.status(400).json({ message: "A categoria não existe." });
       }
 
-      const categoria = await categoriaModel.findOne(id);
       return res.json(categoria);
     } catch (error) {
       return res.json(error);
