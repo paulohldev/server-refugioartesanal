@@ -1,6 +1,6 @@
 // Propriedades e métodos do parâmetro req => http://expressjs.com/en/4x/api.html#req
 // Propriedades e métodos do parâmetro res => http://expressjs.com/en/4x/api.html#res
-const categoriaModel = require('../models/Categoria');
+const categoriaModel = require("../models/Categoria");
 
 const CategoriaController = {
   listaCategorias: async (req, res) => {
@@ -16,25 +16,42 @@ const CategoriaController = {
 
   addCategoria: async (req, res) => {
     try {
-      await categoriaModel.create(req.body);
-      return res.json(req.body);
+      const { id, nome } = req.body;
+
+      if (!id || !nome) {
+        return res
+          .status(400)
+          .send({ message: "O nome da categoria não pode ser vazia." });
+      }
+
+      const categoria = await categoriaModel.create(req.body);
+      return res.status(200).json(categoria);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(500).json(error);
     }
   },
 
   umaCategoria: async (req, res) => {
     try {
-      const {id }=req.params;
-
       const categoria = await categoriaModel.findOne(req.params.id);
-      
-      if (!categoria.length){
-         return res.status(400).json({mensage:"Essa categoria não existe"})
-      }
       return res.json(categoria);
     } catch (error) {
       return res.json(error);
+    }
+  },
+
+  atualizaCategoria: async (req, res) => {
+    try {
+      const { id } = req.body;
+
+      const categoria = await categoriaModel.findOne(id);
+      if (!categoria) {
+        return res.status(400).json({ message: "A categoria não existe." });
+      }
+
+      return res.json(categoria);
+    } catch (error) {
+      return res.status(500).json(error);
     }
   },
 };
