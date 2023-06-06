@@ -1,44 +1,48 @@
-const produtosJson = require('./produtos.json');
+const { DataTypes, Model } = require("sequelize");
+const sequelize = require("../../sql");
 
-const findAll = async () => {
-  try {
-    return await produtosJson;
-  } catch (error) {
-    return error;
+class Produto extends Model {}
+Produto.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    nome: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    valor: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+    descricao: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [30, 400],
+          msg: "Descrição Deve Ter Entre 30 a 400 Caracteres",
+        },
+      },
+      allowNull: false,
+    },
+  },
+
+  {
+    timestamps: false,
+    sequelize,
   }
-};
+);
 
-const findOne = async (id) => {
+(async () => {
   try {
-    return await produtosJson.filter((categoria) => categoria.id == id);
+    await sequelize.sync();
+    console.log("Model synchronized with database");
   } catch (error) {
-    return error;
+    console.error("Error synchronizing model:", error);
   }
-};
+})();
 
-const create = async (dados) => {
-  try {
-    await produtosJson.push(dados);
-    return produtosJson;
-  } catch (error) {
-    return error;
-  }
-};
-
-const destroy = async (id) => {
-  try {
-    const novosRegistros = await produtosJson.filter(
-      (produtos) => produtos.id != id,
-    );
-    return novosRegistros;
-  } catch (error) {
-    return error;
-  }
-};
-
-module.exports = {
-  findAll,
-  findOne,
-  create,
-  destroy,
-};
+module.exports = Categoria;
