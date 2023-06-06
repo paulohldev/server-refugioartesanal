@@ -35,9 +35,8 @@ const CategoriaController = {
     try {
       const { id } = req.params;
 
-      const categoria = await categoriaModel.findByPk(id); // Procura um registro no banco de dados pela primary key
-
-      if (!categoria) {
+      const categoria = await categoriaModel.findOne(id);
+      if (!categoria.length) {
         return res.status(400).json({ message: "A categoria não existe." });
       }
 

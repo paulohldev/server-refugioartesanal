@@ -23,8 +23,7 @@ Categoria.init(
 
 (async () => {
   try {
-    await sequelize.sync();
-    console.log("Model synchronized with database");
+    return await categoriaJson.filter((categoria) => categoria.id == id);
   } catch (error) {
     console.error("Error synchronizing model:", error);
   }

@@ -12,8 +12,14 @@ const ProdutoController = {
 
   addProdutos: async (req, res) => {
     try {
-      await ProdutosModel.create(req.body);
-      return res.json(req.body);
+      const {id,nome,valor,descricao} = req.body
+      if(!id || !nome || !valor || !descricao){
+        return res.send({ message : "Erro"})
+      } else {
+        console.log("Produto Adicionado");
+      }
+      const produto = await ProdutosModel.create(req.body);
+      return res.json(produto);
     } catch (error) {
       return res.status(400).json(error);
     }
