@@ -14,6 +14,12 @@ const PedidoController = {
   
     addpedidos: async (req, res) => {
       try {
+        const {pedido,status,data,valor,id} = req.body
+          if(!pedido || !status || !data || !valor || !id){
+            return res.send({ message : "Erro"})
+      } else {
+        console.log("OK");
+      }
         await pedidosModel.create(req.body);
         return res.json(req.body);
       } catch (error) {
