@@ -38,4 +38,4 @@ const ProdutoController = {
   },
 };
 
-module.exports = ProdutosController;
+module.exports = ProdutoController;
