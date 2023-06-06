@@ -1,35 +1,33 @@
-const categoriaJson = require('../models/categorias.json');
+const { DataTypes, Model } = require("sequelize");
+const sequelize = require("../../sql");
 
-// Método para listar todas as categorias do arquivo json
-const findAll = async () => {
-  try {
-    return await categoriaJson;
-  } catch (error) {
-    return error;
+class Categoria extends Model {}
+Categoria.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    nome: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+  },
+  {
+    timestamps: false,
+    sequelize,
   }
-};
+);
 
-// Método para listar uma categoria do arquivo json
-const findOne = async (id) => {
+(async () => {
   try {
-    return await categoriaJson.filter((categoria) => categoria.id == id);
+    await sequelize.sync();
+    console.log("Model synchronized with database");
   } catch (error) {
-    return error;
+    console.error("Error synchronizing model:", error);
   }
-};
+})();
 
-// Método para adicionar uma categoria (não salva no arquivo json), é um exemplo
-const create = async (dados) => {
-  try {
-    await categoriaJson.push(dados);
-    return categoriaJson;
-  } catch (error) {
-    return error;
-  }
-};
-
-module.exports = {
-  findAll,
-  findOne,
-  create,
-};
+module.exports = Categoria;

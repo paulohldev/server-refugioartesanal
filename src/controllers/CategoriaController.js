@@ -16,9 +16,9 @@ const CategoriaController = {
 
   addCategoria: async (req, res) => {
     try {
-      const { id, nome } = req.body;
+      const { nome } = req.body;
 
-      if (!id || !nome) {
+      if (!nome) {
         return res
           .status(400)
           .send({ message: "O nome da categoria não pode ser vazia." });
@@ -35,8 +35,9 @@ const CategoriaController = {
     try {
       const { id } = req.params;
 
-      const categoria = await categoriaModel.findOne(id);
-      if (!categoria.length) {
+      const categoria = await categoriaModel.findByPk(id); // Procura um registro no banco de dados pela primary key
+
+      if (!categoria) {
         return res.status(400).json({ message: "A categoria não existe." });
       }
 
@@ -50,7 +51,7 @@ const CategoriaController = {
     try {
       const { id } = req.body;
 
-      const categoria = await categoriaModel.findOne(id);
+      const categoria = await categoriaModel.findByPk(id);
       if (!categoria) {
         return res.status(400).json({ message: "A categoria não existe." });
       }
