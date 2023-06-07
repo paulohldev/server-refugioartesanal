@@ -1,9 +1,19 @@
-const ProdutosModel = require("../models/Produto");
+const ProdutosModel = require('../models/Produto');
+const Categoria = require('../models/Categoria');
 
 const ProdutoController = {
   listaProdutos: async (req, res) => {
     try {
-      const produtos = await ProdutosModel.findAll();
+      const produtos = await ProdutosModel.findAll({
+        include: [
+          {
+            model: Categoria,
+            as: 'categoria',
+            attributes: ['nome'],
+          },
+        ],
+      });
+
       return res.json(produtos);
     } catch (error) {
       return res.json(error);
@@ -12,11 +22,11 @@ const ProdutoController = {
 
   addProdutos: async (req, res) => {
     try {
-      const {id,nome,valor,descricao} = req.body
-      if(!id || !nome || !valor || !descricao){
-        return res.send({ message : "Erro"})
+      const { id, nome, valor, descricao } = req.body;
+      if (!id || !nome || !valor || !descricao) {
+        return res.send({ message: 'Erro' });
       } else {
-        console.log("Produto Adicionado");
+        console.log('Produto Adicionado');
       }
       const produto = await ProdutosModel.create(req.body);
       return res.json(produto);

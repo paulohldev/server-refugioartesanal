@@ -1,7 +1,9 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../../sql");
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../../sql');
+const Categoria = require('./Categoria');
 
 class Produto extends Model {}
+
 Produto.init(
   {
     id: {
@@ -12,7 +14,7 @@ Produto.init(
     },
     nome: {
       type: DataTypes.STRING,
-      unique: true,
+      allowNull: false,
     },
     valor: {
       type: DataTypes.DOUBLE,
@@ -23,26 +25,36 @@ Produto.init(
       validate: {
         len: {
           args: [30, 400],
-          msg: "Descrição Deve Ter Entre 30 a 400 Caracteres",
+          msg: 'Descrição Deve Ter Entre 30 a 400 Caracteres',
         },
       },
       allowNull: false,
+    },
+    categoria_id: {
+      type: DataTypes.INTEGER,
     },
   },
 
   {
     timestamps: false,
     sequelize,
-  }
+  },
 );
+
+Produto.belongsTo(Categoria, {
+  foreignKey: 'categoria_id',
+  as: 'categoria',
+});
 
 (async () => {
   try {
     await sequelize.sync();
-    console.log("Model synchronized with database");
+    // console.log(sequelize);
+    // association();
+    // console.log('Model synchronized with database');
   } catch (error) {
-    console.error("Error synchronizing model:", error);
+    console.error('Error synchronizing model:', error);
   }
 })();
 
-module.exports = Categoria;
+module.exports = Produto;

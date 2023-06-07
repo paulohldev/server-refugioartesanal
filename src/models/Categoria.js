@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require("sequelize");
-const sequelize = require("../../sql");
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../../sql');
 
 class Categoria extends Model {}
 Categoria.init(
@@ -17,16 +17,17 @@ Categoria.init(
   },
   {
     timestamps: false,
+    tableName: 'categorias',
     sequelize,
-  }
+  },
 );
 
 (async () => {
   try {
     await sequelize.sync();
-    console.log("Model synchronized with database");
+    // console.log("Model synchronized with database");
   } catch (error) {
-    console.error("Error synchronizing model:", error);
+    console.error('Error synchronizing model:', error);
   }
 })();
 
