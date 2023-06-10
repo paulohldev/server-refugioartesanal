@@ -1,7 +1,7 @@
 const pedidosModel = require('../models/Pedidos');
 
 const PedidoController = {
-    listapedidos: async (req, res) => {
+    listar: async (req, res) => {
       try {
         // Código que irá ocorrer para listar as pedidos, caso haja qualquer erro irá para o código dentro do catch
         const Pedidos = await pedidosModel.findAll();
@@ -12,7 +12,7 @@ const PedidoController = {
       }
     },
   
-    addpedidos: async (req, res) => {
+    adicionar: async (req, res) => {
       try {
         const {pedido,status,data,valor,id} = req.body
           if(!pedido || !status || !data || !valor || !id){
@@ -27,7 +27,7 @@ const PedidoController = {
       }
     },
   
-    umapedidos: async (req, res) => {
+    buscarUm: async (req, res) => {
       try {
         const {id }=req.params;
 
@@ -42,6 +42,26 @@ const PedidoController = {
         return res.json(error);
       }
     },
+  deletar: async (req, res) => {
+    try {
+      const pedidoDeletado = await pedidosModel.destroy(req.params.id);
+      return res.json(pedidoDeletado);
+    } catch (error) {
+      return res.json(error);
+    }
+  },
+  atualizar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { pedido, status, data, valor } = req.body;
+      await pedidosModel.update(id, {pedido,status,data,valor});
+      const pedidoAtualizado = await pedidosModel.findOne(id);
+      return res.json(pedidoAtualizado);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
+
   };
   
   module.exports = PedidoController;

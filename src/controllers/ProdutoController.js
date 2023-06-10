@@ -2,7 +2,7 @@ const ProdutosModel = require('../models/Produto');
 const Categoria = require('../models/Categoria');
 
 const ProdutoController = {
-  listaProdutos: async (req, res) => {
+  listar: async (req, res) => {
     try {
       const produtos = await ProdutosModel.findAll({
         include: [
@@ -20,7 +20,7 @@ const ProdutoController = {
     }
   },
 
-  addProdutos: async (req, res) => {
+  adicionar: async (req, res) => {
     try {
       const { id, nome, valor, descricao } = req.body;
       if (!id || !nome || !valor || !descricao) {
@@ -35,7 +35,7 @@ const ProdutoController = {
     }
   },
 
-  umProdutos: async (req, res) => {
+  buscarUm: async (req, res) => {
     try {
       const produtos = await ProdutosModel.findOne(req.params.id);
       return res.json(produtos);
@@ -44,7 +44,7 @@ const ProdutoController = {
     }
   },
 
-  removeProdutos: async (req, res) => {
+  deletar: async (req, res) => {
     try {
       const ProdutoDeletado = await ProdutosModel.destroy(req.params.id);
       return res.json(ProdutoDeletado);
@@ -52,6 +52,19 @@ const ProdutoController = {
       return res.json(error);
     }
   },
+  atualizar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nome, valor, descricao } = req.body;
+      await ProdutosModel.update({nome,valor,descricao},
+        {where: { id }});
+      const produtoAtualizado = await ProdutosModel.findByPk(id);
+      return res.json(produtoAtualizado);
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+  },
+
 };
 
 module.exports = ProdutoController;

@@ -3,7 +3,7 @@
 const usuarioModel = require('../models/Usuario');
 
 const UsuarioController = {
-  listaUsuarios: async (req, res) => {
+  listar: async (req, res) => {
     try {
       const usuarios = await usuarioModel.findAll();
       return res.json(usuarios);
@@ -12,7 +12,7 @@ const UsuarioController = {
     }
   },
 
-  addUsuario: async (req, res) => {
+  adicionar: async (req, res) => {
     try {
       const {id, nome, email, sobrenome, telefone , endereco, datanascimento, senha} = req.body;
 
@@ -27,7 +27,7 @@ const UsuarioController = {
     }
   },
 
-  umUsuario: async (req, res) => {
+  buscarUm: async (req, res) => {
     try {
       const {id }=req.params;
 
@@ -41,13 +41,32 @@ const UsuarioController = {
       return res.json(error);
     }
   },
-
-  removeUsuario: async (req, res) => {
+  deletar: async (req, res) => {
     try {
-      const usuarioDeletado = await usuarioModel.destroy(req.params.id);
-      return res.json(usuarioDeletado);
+      const { id } = req.params;
+      const usuarioExistente = await usuarioModel.findOne(id);
+      if (!usuarioExistente) {
+        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+      }
+      await usuarioModel.destroy(id);
+      return res.json({ mensagem: "Usuário deletado com sucesso" });
     } catch (error) {
-      return res.json(error);
+      return res.status(400).json(error);
+    }
+  },
+  atualizar: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nome, email, sobrenome, telefone, endereco, datanascimento, senha } = req.body;
+      const usuarioExistente = await usuarioModel.findOne(id);
+      if (!usuarioExistente) {
+        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+      }
+      // Atualiza os dados do usuario
+      const usuarioAtualizado = await usuarioModel.update(id, {nome,email,sobrenome,telefone,endereco,datanascimento,senha});
+      return res.json(usuarioAtualizado);
+    } catch (error) {
+      return res.status(400).json(error);
     }
   },
 };
