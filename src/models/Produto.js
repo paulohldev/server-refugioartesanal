@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/connection');
+const sequelize = require('../database');
 const Categoria = require('./Categoria');
 
 class Produto extends Model {}
@@ -37,6 +37,7 @@ Produto.init(
 
   {
     timestamps: false,
+    tableName: 'produtos',
     sequelize,
   },
 );
@@ -48,12 +49,11 @@ Produto.belongsTo(Categoria, {
 
 (async () => {
   try {
-    await sequelize.sync();
-    // console.log(sequelize);
-    // association();
-    // console.log('Model synchronized with database');
+    await sequelize.sync({
+      logging: false,
+    });
   } catch (error) {
-    console.error('Error synchronizing model:', error);
+    console.error('O model Categoria não foi inicializado.', error);
   }
 })();
 

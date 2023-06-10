@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/connection');
+const sequelize = require('../database');
 
 class Categoria extends Model {}
 Categoria.init(
@@ -24,10 +24,11 @@ Categoria.init(
 
 (async () => {
   try {
-    await sequelize.sync();
-    // console.log("Model synchronized with database");
+    await sequelize.sync({
+      logging: false,
+    });
   } catch (error) {
-    console.error('Error synchronizing model:', error);
+    console.error('O model Categoria não foi inicializado.', error);
   }
 })();
 

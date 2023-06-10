@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // Inicia o banco de dados
-require('./database/connection');
+require('./database/index');
 
 // middlewares
 app.use(express.json());

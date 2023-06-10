@@ -1,8 +1,8 @@
 module.exports = {
   database: 'refugioartesanal',
-  username: 'aluno',
-  password: 'ifpe2023',
+  username: 'root',
+  password: 'admin',
   host: 'localhost',
   dialect: 'mysql',
-  logging: true,
+  logging: console.log,
 };
