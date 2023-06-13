@@ -24,44 +24,62 @@ const ProdutoController = {
     try {
       const { id, nome, valor, descricao } = req.body;
       if (!id || !nome || !valor || !descricao) {
-        return res.send({ message: 'Erro' });
+        return res.status(400).send({ message: 'O campo não pode ser vazio' });
       } else {
         console.log('Produto Adicionado');
       }
       const produto = await ProdutosModel.create(req.body);
-      return res.json(produto);
+      return res.status(200).json(produto);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json({message:'Desculpe, ocorreu um erro.'});
     }
   },
 
   buscarUm: async (req, res) => {
     try {
-      const produtos = await ProdutosModel.findOne(req.params.id);
-      return res.json(produtos);
+      const{id}=req.params;
+
+      const produto= await categoriaModel.findByPk(id);
+      if (!produto) {
+        return res.status(400).json({ message: 'O produto não existe.' });
+      }
+
+      return res.status(200).json(produto);
     } catch (error) {
-      return res.json(error);
+      return res.status(500).json({ message: 'Desculpe, ocorreu um erro.' });
     }
   },
 
   deletar: async (req, res) => {
     try {
-      const ProdutoDeletado = await ProdutosModel.destroy(req.params.id);
-      return res.json(ProdutoDeletado);
+      const{id}=req.params;
+      const produto= await ProdutosModel.findByPk(id);
+      if(!produto){
+        return res.status(400).json({message:"Produto não existe"});
+      }
+      await produto.destroy();
+      
+      return res.status(200).json({message:"Produto Deletado"});
     } catch (error) {
-      return res.json(error);
+      return res.status(200).json({message:"Desculpe, ocorreu um erro."});
     }
   },
   atualizar: async (req, res) => {
     try {
       const { id } = req.params;
       const { nome, valor, descricao } = req.body;
-      await ProdutosModel.update({nome,valor,descricao},
-        {where: { id }});
-      const produtoAtualizado = await ProdutosModel.findByPk(id);
-      return res.json(produtoAtualizado);
+      
+      const produto = await ProdutosModel.findOne(id);
+      
+      if(!produto){
+        return res.status(400).json({message:"Produto não existe"});
+      }
+
+      const produtoAtualizado=await ProdutosModel.update(id,{nome,valor,descricao});
+      
+      return res.status(200).json(produtoAtualizado);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json({message:"Desculpe, oorreu um erro."});
     }
   },
 
