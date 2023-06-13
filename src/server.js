@@ -8,7 +8,7 @@ require('./database/index');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Importação das rotas e inicializaçao com o metodo app.use()
+// Importação das rotas e inicializaçao com o meto app.use()
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 
