@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../database');
 
-class Usuario extends Model {}
+class Usuario extends Model { }
 
 Usuario.init(
   {
@@ -27,6 +27,11 @@ Usuario.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isArtesao: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   },
   {
     timestamps: false,
