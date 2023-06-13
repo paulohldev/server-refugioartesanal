@@ -1,44 +1,58 @@
-const pedidosJson = require('./pedidos.json');
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../database');
+const Produto = require('./Produto');
 
-const findAll = async () => {
+class Pedido extends Model {}
+
+Pedido.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    pedido: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    data: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    valor: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
+    produto_id: {
+      type: DataTypes.INTEGER,
+    },
+  },
+
+  {
+    timestamps: false,
+    tableName: 'pedidos',
+    sequelize,
+  },
+);
+
+Pedido.belongsTo(Produto, {
+  foreignKey: 'Produto_id',
+  as: 'Produto',
+});
+
+(async () => {
   try {
-    return await pedidosJson;
+    await sequelize.sync({
+      logging: false,
+    });
   } catch (error) {
-    return error;
+    console.error('O model pedido não foi inicializado.', error);
   }
-};
+})();
 
-const findOne = async (id) => {
-  try {
-    return await pedidosJson.filter((categoria) => categoria.id == id);
-  } catch (error) {
-    return error;
-  }
-};
-
-const create = async (dados) => {
-  try {
-    await pedidosJson.push(dados);
-    return pedidosJson;
-  } catch (error) {
-    return error;
-  }
-};
-
-const destroy = async (id) => {
-  try {
-    const novosRegistros = await pedidosJson.filter(
-      (Pedidos) => Pedidos.id != id,
-    );
-    return novosRegistros;
-  } catch (error) {
-    return error;
-  }
-};
-
-module.exports = {
-  findAll,
-  findOne,
-  create,
-  destroy,
-};
+module.exports = Pedido;

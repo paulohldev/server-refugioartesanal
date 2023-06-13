@@ -1,44 +1,38 @@
-const usuarioJson = require('../models/usuarios.json');
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../database');
 
-const findAll = async () => {
-  try {
-    return await usuarioJson;
-  } catch (error) {
-    return error;
+class Usuario extends Model {}
+
+Usuario.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    nome: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    sobrenome: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+    tableName: 'usuarios',
+    sequelize,
   }
-};
+);
 
-const findOne = async (id) => {
-  try {
-    return await usuarioJson.filter((categoria) => categoria.id == id);
-  } catch (error) {
-    return error;
-  }
-};
-
-const create = async (dados) => {
-  try {
-    await usuarioJson.push(dados);
-    return usuarioJson;
-  } catch (error) {
-    return error;
-  }
-};
-
-const destroy = async (id) => {
-  try {
-    const novosRegistros = await usuarioJson.filter(
-      (usuario) => usuario.id != id,
-    );
-    return novosRegistros;
-  } catch (error) {
-    return error;
-  }
-};
-
-module.exports = {
-  findAll,
-  findOne,
-  create,
-  destroy,
-};
+module.exports = Usuario;
