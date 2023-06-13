@@ -1,35 +1,17 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 
-class Categoria extends Model {}
-Categoria.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    nome: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
+const Categoria = sequelize.define('categorias', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
   },
-  {
-    timestamps: false,
-    tableName: 'categorias',
-    sequelize,
+  nome: {
+    type: DataTypes.STRING,
+    unique: true,
   },
-);
-
-(async () => {
-  try {
-    await sequelize.sync({
-      logging: false,
-    });
-  } catch (error) {
-    console.error('O model Categoria não foi inicializado.', error);
-  }
-})();
+}, { timestamps: false })
 
 module.exports = Categoria;
