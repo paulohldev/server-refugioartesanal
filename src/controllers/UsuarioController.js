@@ -14,9 +14,9 @@ const UsuarioController = {
 
   adicionar: async (req, res) => {
     try {
-      const {id, nome, email, sobrenome, telefone , endereco, datanascimento, senha} = req.body;
-
-      if(!id || !nome || !email || !sobrenome || !telefone || !endereco || !datanascimento || !senha){
+      const {id, nome, email, sobrenome, senha} = req.body;
+     
+      if(!id || !nome || !email || !sobrenome || !senha){
                 return res.send({mensagem:"Todos os campos são obrigatorios"});
       }
       const usuario =await usuarioModel.create(req.body);
@@ -31,7 +31,7 @@ const UsuarioController = {
     try {
       const {id }=req.params;
 
-      const usuario = await usuarioModel.findOne(req.params.id);
+      const usuario = await usuarioModel.findByPk(id);
       
       if (!usuario.length){
          return res.status(400).json({mensage:"usuario não existe"})
@@ -44,7 +44,7 @@ const UsuarioController = {
   deletar: async (req, res) => {
     try {
       const { id } = req.params;
-      const usuarioExistente = await usuarioModel.findOne(id);
+      const usuarioExistente = await usuarioModel.findByPK(id);
       if (!usuarioExistente) {
         return res.status(404).json({ mensagem: "Usuário não encontrado" });
       }
@@ -58,7 +58,7 @@ const UsuarioController = {
     try {
       const { id } = req.params;
       const { nome, email, sobrenome, telefone, endereco, datanascimento, senha } = req.body;
-      const usuarioExistente = await usuarioModel.findOne(id);
+      const usuarioExistente = await usuarioModel.findByPk(id);
       if (!usuarioExistente) {
         return res.status(404).json({ mensagem: "Usuário não encontrado" });
       }

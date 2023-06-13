@@ -1,4 +1,4 @@
-const pedidosModel = require('../models/Pedidos');
+const pedidosModel = require('../models/Pedido');
 
 const PedidoController = {
     listar: async (req, res) => {
@@ -31,7 +31,7 @@ const PedidoController = {
       try {
         const {id }=req.params;
 
-        const pedidos = await pedidosModel.findOne(req.params.id);
+        const pedidos = await pedidosModel.findByPK(id);
         
         if (!pedidos.length){
            return res.status(400).json({mensage:"usuario não existe"})
@@ -45,6 +45,8 @@ const PedidoController = {
   deletar: async (req, res) => {
     try {
       const pedidoDeletado = await pedidosModel.destroy(req.params.id);
+
+      
       return res.json(pedidoDeletado);
     } catch (error) {
       return res.json(error);
@@ -55,7 +57,7 @@ const PedidoController = {
       const { id } = req.params;
       const { pedido, status, data, valor } = req.body;
       await pedidosModel.update(id, {pedido,status,data,valor});
-      const pedidoAtualizado = await pedidosModel.findOne(id);
+      const pedidoAtualizado = await pedidosModel.findByPK(id);
       return res.json(pedidoAtualizado);
     } catch (error) {
       return res.status(400).json(error);

@@ -36,8 +36,5 @@ const Pedido = sequelize.define('pedidos', {
 Pedido.belongsTo(Produto, {
   foreignKey: 'produto_id',
   as: 'produto',
-});
-
-
-
+})
 module.exports = Pedido;

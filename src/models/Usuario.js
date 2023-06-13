@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 const Pedido = require('./Pedido');
+const Produto=require('./Produto');
 
 const Usuario = sequelize.define('usuarios', {
   id: {
@@ -36,5 +37,8 @@ const Usuario = sequelize.define('usuarios', {
 Usuario.hasMany(Pedido, {
   foreignKey: 'usuario_id'
 })
-
+Usuario.hasMany(Produto,{
+  foreignkey: 'produto_id',
+  as:'produto'
+})
 module.exports = Usuario;
