@@ -14,7 +14,8 @@ const CategoriaController = {
 
   adicionar: async (req, res) => {
     try {
-      const { nome } = req.body;
+     console.log(req.body,"produ") 
+     const { nome } = req.body;
 
       if (!nome) {
         return res.status(400).send({ message: 'O campo não pode ser vazio.' });

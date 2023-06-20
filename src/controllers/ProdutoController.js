@@ -25,13 +25,12 @@ const ProdutoController = {
       const { id, nome, valor, descricao } = req.body;
       if (!id || !nome || !valor || !descricao) {
         return res.status(400).send({ message: 'O campo não pode ser vazio' });
-      } else {
-        console.log('Produto Adicionado');
+  
       }
       const produto = await ProdutosModel.create(req.body);
       return res.status(200).json(produto);
     } catch (error) {
-      return res.status(400).json({message:'Desculpe, ocorreu um erro.'});
+      return res.status(400).json({message:'Desculpe, ocorreu um erro.'},error);
     }
   },
 
@@ -69,13 +68,13 @@ const ProdutoController = {
       const { id } = req.params;
       const { nome, valor, descricao } = req.body;
       
-      const produto = await ProdutosModel.findOne(id);
+      const produto = await ProdutosModel.findByPk(id);
       
       if(!produto){
         return res.status(400).json({message:"Produto não existe"});
       }
 
-      const produtoAtualizado=await ProdutosModel.update(id,{nome,valor,descricao});
+      const produtoAtualizado=await produto.update(req.body);
       
       return res.status(200).json(produtoAtualizado);
     } catch (error) {
