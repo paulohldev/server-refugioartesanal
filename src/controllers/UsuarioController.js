@@ -33,7 +33,7 @@ const UsuarioController = {
 
       const usuario = await usuarioModel.findByPk(id);
       
-      if (!usuario.length){
+      if (!usuario){
          return res.status(400).json({mensage:"usuario não existe"})
       }
       return res.json(usuario);
@@ -41,29 +41,31 @@ const UsuarioController = {
       return res.json(error);
     }
   },
+
   deletar: async (req, res) => {
     try {
       const { id } = req.params;
-      const usuarioExistente = await usuarioModel.findByPK(id);
+      const usuarioExistente = await usuarioModel.findByPk(id);
       if (!usuarioExistente) {
         return res.status(404).json({ mensagem: "Usuário não encontrado" });
       }
-      await usuarioModel.destroy(id);
+      await usuarioExistente.destroy(id);
       return res.json({ mensagem: "Usuário deletado com sucesso" });
     } catch (error) {
       return res.status(400).json(error);
     }
   },
+
   atualizar: async (req, res) => {
     try {
       const { id } = req.params;
-      const { nome, email, sobrenome, telefone, endereco, datanascimento, senha } = req.body;
+      // const { nome, email, sobrenome, telefone, endereco, datanascimento, senha } = req.body;
       const usuarioExistente = await usuarioModel.findByPk(id);
       if (!usuarioExistente) {
         return res.status(404).json({ mensagem: "Usuário não encontrado" });
       }
       // Atualiza os dados do usuario
-      const usuarioAtualizado = await usuarioModel.update(id, {nome,email,sobrenome,telefone,endereco,datanascimento,senha});
+      const usuarioAtualizado = await usuarioExistente.update(req.body);
       return res.json(usuarioAtualizado);
     } catch (error) {
       return res.status(400).json(error);
