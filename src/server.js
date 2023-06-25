@@ -18,9 +18,10 @@ const pedidosRoutes = require("./routes/pedidosRoutes");
 app.use("/usuarios", usuarioRoutes);
 app.use("/categorias", categoriaRoutes);
 app.use("/produtos", produtosRoutes);
-app.use("/pedidos", pedidosRoutes);
+app.use("/pedidos", pedidosRoutes);dsa
 
 // Inicia o servidor na porta 3000
 app.listen(3000, () => {
   console.log("Servidor iniciado: http://localhost:3000 👍");
 });
+//teste
