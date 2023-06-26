@@ -76,14 +76,11 @@ const UsuarioController = {
     const { email, senha } = req.body;
 
     try {
-
-      
       const usuario = await usuarioModel.findOne({ where: { email } });
 
       if (!usuario) {
         return res.status(401).json({ mensagem: "Credenciais inválidas" });
       }
-
       if (senha !== usuario.senha) {
         return res.status(401).json({ mensagem: "Credenciais inválidas" });
       }
