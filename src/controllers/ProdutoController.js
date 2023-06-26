@@ -1,5 +1,6 @@
 const ProdutosModel = require('../models/Produto');
 const Categoria = require('../models/Categoria');
+const Produto = require('../models/Produto');
 
 const ProdutoController = {
   listar: async (req, res) => {
@@ -22,23 +23,21 @@ const ProdutoController = {
 
   adicionar: async (req, res) => {
     try {
-      const { id, nome, valor, descricao } = req.body;
-      if (!id || !nome || !valor || !descricao) {
-        return res.status(400).send({ message: 'O campo não pode ser vazio' });
-  
+      const { id, nome, valor, descricao, usuarioId } = req.body;
+      if (!id || !nome || !valor || !descricao || !usuarioId) {
+        return res.status(400).send({ message: 'Todos os campos devem ser preenchidos' });
       }
-      const produto = await ProdutosModel.create(req.body);
+      const produto = await ProdutosModel.create({ id, nome, valor, descricao, usuarioId });
       return res.status(200).json(produto);
     } catch (error) {
-      return res.status(400).json({message:'Desculpe, ocorreu um erro.'},error);
+      return res.status(400).json({ message: 'Desculpe, ocorreu um erro.', error });
     }
   },
-
   buscarUm: async (req, res) => {
     try {
-      const{id}=req.params;
+      const { id } = req.params;
 
-      const produto= await categoriaModel.findByPk(id);
+      const produto = await Produto.findByPk(id);
       if (!produto) {
         return res.status(400).json({ message: 'O produto não existe.' });
       }
@@ -48,7 +47,6 @@ const ProdutoController = {
       return res.status(500).json({ message: 'Desculpe, ocorreu um erro.' });
     }
   },
-
   deletar: async (req, res) => {
     try {
       const{id}=req.params;
