@@ -24,3 +24,4 @@ app.use("/pedidos", pedidosRoutes);dsa
 app.listen(3000, () => {
   console.log("Servidor iniciado: http://localhost:3000 👍");
 });
+//socorro deus
