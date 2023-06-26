@@ -71,11 +71,13 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
+
   login: async (req, res) => {
     const { email, senha } = req.body;
 
     try {
 
+      
       const usuario = await usuarioModel.findOne({ where: { email } });
 
       if (!usuario) {
