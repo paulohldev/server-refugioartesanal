@@ -22,6 +22,10 @@ const Usuario = sequelize.define('usuarios', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  telefone: {
+    type: DataTypes.STRING(45),
+    allowNull: false
+  },
   senha: {
     type: DataTypes.STRING,
     allowNull: false,

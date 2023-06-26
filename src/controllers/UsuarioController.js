@@ -14,18 +14,30 @@ const UsuarioController = {
 
   adicionar: async (req, res) => {
     try {
-      const {id, nome, email, sobrenome, senha} = req.body;
-     
-      if(!id || !nome || !email || !sobrenome || !senha){
-                return res.send({mensagem:"Todos os campos são obrigatorios"});
+      const { id, nome, email, sobrenome, senha, telefone } = req.body;
+
+      if (!id || !nome || !email || !sobrenome || !senha || !telefone) {
+        return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
       }
-      const usuario =await usuarioModel.create(req.body);
-   
-      return res.json(usuario);
+
+      const usuario = await usuarioModel.create({
+        id,
+        nome,
+        email,
+        sobrenome,
+        senha,
+        telefone
+      });
+
+      return res.status(201).json({
+        mensagem: "Usuário adicionado com sucesso",
+        usuario
+      });
     } catch (error) {
       return res.status(400).json(error);
     }
-  },
+  }
+,
 
   buscarUm: async (req, res) => {
     try {
