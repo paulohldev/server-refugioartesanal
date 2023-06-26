@@ -1,6 +1,6 @@
 module.exports = {
   database: 'refugioartesanal',
-  username: 'aluno',
+  username: 'root',
   password: 'ifpe2023',
   host: 'localhost',
   dialect: 'mysql',
