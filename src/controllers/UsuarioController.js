@@ -71,6 +71,28 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
+
+  login: async (req, res) => {
+    const { email, senha } = req.body;
+
+    try {
+      
+      const usuario = await usuarioModel.findOne({ where: { email } });
+
+      if (!usuario) {
+        return res.status(401).json({ mensagem: "Credenciais inválidas" });
+      }
+
+      if (senha !== usuario.senha) {
+        return res.status(401).json({ mensagem: "Credenciais inválidas" });
+      }
+
+      return res.json({ mensagem: "Login bem-sucedido" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ mensagem: "Erro interno do servidor" });
+    }
+  }
 };
 
 module.exports = UsuarioController;
