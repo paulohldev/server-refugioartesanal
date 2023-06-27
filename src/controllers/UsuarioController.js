@@ -1,6 +1,7 @@
 // Propriedades e métodos do parâmetro req => http://expressjs.com/en/4x/api.html#req
 // Propriedades e métodos do parâmetro res => http://expressjs.com/en/4x/api.html#res
 const usuarioModel = require('../models/Usuario');
+const jwt = require('jsonwebtoken');
 
 const UsuarioController = {
   listar: async (req, res) => {
@@ -84,25 +85,31 @@ const UsuarioController = {
     }
   },
 
+
+
+
+
   login: async (req, res) => {
     const { email, senha } = req.body;
-
     try {
-      const usuario = await usuarioModel.findOne({ where: { email } });
-
-      if (!usuario) {
-        return res.status(401).json({ mensagem: "Credenciais inválidas" });
+      // Verificar as credenciais do usuário
+      const usuario = await Usuario.findOne({ where: { email, senha } });
+  
+      if (usuario) {
+        // Criar um token JWT com uma chave secret
+        const chaveSecreta = 'chave';
+        const token = jwt.sign({ id: usuario.id, email: usuario.email }, chaveSecreta, { expiresIn: '1h' });
+  
+        return res.json({ token: token });
+        // Envia o token como resposta
       }
-      if (senha !== usuario.senha) {
-        return res.status(401).json({ mensagem: "Credenciais inválidas" });
-      }
-
-      return res.json({ mensagem: "Login bem-sucedido" });
+  
+      // Caso as credenciais estejam incorretas, retornar null
+      return res.status(401).json({ mensagem: "Credenciais inválidas" });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ mensagem: "Erro interno do servidor" });
+      console.error('Erro ao fazer login:', error);
+      throw error;
     }
   }
-};
-
+}
 module.exports = UsuarioController;
