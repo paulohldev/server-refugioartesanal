@@ -20,6 +20,7 @@ app.use("/categorias", categoriaRoutes);
 app.use("/produtos", produtosRoutes);
 app.use("/pedidos", pedidosRoutes);
 
+
 // Inicia o servidor na porta 3000
 app.listen(3000, () => {
   console.log("Servidor iniciado: http://localhost:3000 👍");
