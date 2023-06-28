@@ -84,16 +84,11 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
-
-
-
-
-
   login: async (req, res) => {
     const { email, senha } = req.body;
     try {
       // Verificar as credenciais do usuário
-      const usuario = await Usuario.findOne({ where: { email, senha } });
+      const usuario = await usuarioModel.findOne({ where: { email, senha } });
   
       if (usuario) {
         // Criar um token JWT com uma chave secret
@@ -103,7 +98,6 @@ const UsuarioController = {
         return res.json({ token: token });
         // Envia o token como resposta
       }
-  
       // Caso as credenciais estejam incorretas, retornar null
       return res.status(401).json({ mensagem: "Credenciais inválidas" });
     } catch (error) {
