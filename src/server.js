@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-
+const cors = require("cors");
+app.use(cors());
 // Inicia o banco de dados
 require("./database/index");
 
