@@ -1,7 +1,7 @@
 // Propriedades e métodos do parâmetro req => http://expressjs.com/en/4x/api.html#req
 // Propriedades e métodos do parâmetro res => http://expressjs.com/en/4x/api.html#res
-const usuarioModel = require('../models/Usuario');
-const jwt = require('jsonwebtoken');
+const usuarioModel = require("../models/Usuario");
+const jwt = require("jsonwebtoken");
 
 const UsuarioController = {
   listar: async (req, res) => {
@@ -15,39 +15,38 @@ const UsuarioController = {
 
   adicionar: async (req, res) => {
     try {
-      const { id, nome, email, sobrenome, senha, telefone } = req.body;
+      const { nome, email, sobrenome, senha, telefone } = req.body;
 
-      if (!id || !nome || !email || !sobrenome || !senha || !telefone) {
-        return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
+      if (!nome || !email || !sobrenome || !senha || !telefone) {
+        return res
+          .status(400)
+          .json({ mensagem: "Todos os campos são obrigatórios" });
       }
 
       const usuario = await usuarioModel.create({
-        id,
         nome,
         email,
         sobrenome,
         senha,
-        telefone
+        telefone,
       });
 
       return res.status(201).json({
         mensagem: "Usuário adicionado com sucesso",
-        usuario
+        usuario,
       });
     } catch (error) {
       return res.status(400).json(error);
     }
-  }
-,
-
+  },
   buscarUm: async (req, res) => {
     try {
-      const {id }=req.params;
+      const { id } = req.params;
 
       const usuario = await usuarioModel.findByPk(id);
-      
-      if (!usuario){
-         return res.status(400).json({mensage:"usuario não existe"})
+
+      if (!usuario) {
+        return res.status(400).json({ mensage: "usuario não existe" });
       }
       return res.json(usuario);
     } catch (error) {
@@ -89,21 +88,25 @@ const UsuarioController = {
     try {
       // Verificar as credenciais do usuário
       const usuario = await usuarioModel.findOne({ where: { email, senha } });
-  
+
       if (usuario) {
         // Criar um token JWT com uma chave secret
-        const chaveSecreta = 'chave';
-        const token = jwt.sign({ id: usuario.id, email: usuario.email }, chaveSecreta, { expiresIn: '1h' });
-  
+        const chaveSecreta = "chave";
+        const token = jwt.sign(
+          { id: usuario.id, email: usuario.email },
+          chaveSecreta,
+          { expiresIn: "1h" }
+        );
+
         return res.json({ token: token });
         // Envia o token como resposta
       }
       // Caso as credenciais estejam incorretas, retornar null
       return res.status(401).json({ mensagem: "Credenciais inválidas" });
     } catch (error) {
-      console.error('Erro ao fazer login:', error);
+      console.error("Erro ao fazer login:", error);
       throw error;
     }
-  }
-}
+  },
+};
 module.exports = UsuarioController;
