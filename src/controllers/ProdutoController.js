@@ -23,11 +23,11 @@ const ProdutoController = {
 
   adicionar: async (req, res) => {
     try {
-      const { id, nome, valor, descricao, usuarioId } = req.body;
-      if (!id || !nome || !valor || !descricao || !usuarioId) {
+      const {nome, valor, descricao, usuarioId } = req.body;
+      if (!nome || !valor || !descricao || !usuarioId) {
         return res.status(400).send({ message: 'Todos os campos devem ser preenchidos' });
       }
-      const produto = await ProdutosModel.create({ id, nome, valor, descricao, usuarioId });
+      const produto = await ProdutosModel.create({nome, valor, descricao, usuarioId });
       return res.status(200).json(produto);
     } catch (error) {
       return res.status(400).json({ message: 'Desculpe, ocorreu um erro.', error });
