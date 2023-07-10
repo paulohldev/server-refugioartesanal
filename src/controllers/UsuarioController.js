@@ -1,7 +1,7 @@
 // Propriedades e métodos do parâmetro req => http://expressjs.com/en/4x/api.html#req
 // Propriedades e métodos do parâmetro res => http://expressjs.com/en/4x/api.html#res
-const usuarioModel = require("../models/Usuario");
-const jwt = require("jsonwebtoken");
+const usuarioModel = require('../models/Usuario');
+const jwt = require('jsonwebtoken');
 
 const UsuarioController = {
   listar: async (req, res) => {
@@ -15,12 +15,12 @@ const UsuarioController = {
 
   adicionar: async (req, res) => {
     try {
-      const { nome, email, sobrenome, senha, telefone } = req.body;
-
+      const { nome, email, sobrenome, senha, telefone, isArtesao } = req.body;
+      console.log(req.body);
       if (!nome || !email || !sobrenome || !senha || !telefone) {
         return res
           .status(400)
-          .json({ mensagem: "Todos os campos são obrigatórios" });
+          .json({ mensagem: 'Todos os campos são obrigatórios' });
       }
 
       const usuario = await usuarioModel.create({
@@ -29,10 +29,11 @@ const UsuarioController = {
         sobrenome,
         senha,
         telefone,
+        isArtesao: isArtesao || false,
       });
 
       return res.status(201).json({
-        mensagem: "Usuário adicionado com sucesso",
+        mensagem: 'Usuário adicionado com sucesso',
         usuario,
       });
     } catch (error) {
@@ -46,7 +47,7 @@ const UsuarioController = {
       const usuario = await usuarioModel.findByPk(id);
 
       if (!usuario) {
-        return res.status(400).json({ mensage: "usuario não existe" });
+        return res.status(400).json({ mensage: 'usuario não existe' });
       }
       return res.json(usuario);
     } catch (error) {
@@ -59,10 +60,10 @@ const UsuarioController = {
       const { id } = req.params;
       const usuarioExistente = await usuarioModel.findByPk(id);
       if (!usuarioExistente) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+        return res.status(404).json({ mensagem: 'Usuário não encontrado' });
       }
       await usuarioExistente.destroy(id);
-      return res.json({ mensagem: "Usuário deletado com sucesso" });
+      return res.json({ mensagem: 'Usuário deletado com sucesso' });
     } catch (error) {
       return res.status(400).json(error);
     }
@@ -74,7 +75,7 @@ const UsuarioController = {
       // const { nome, email, sobrenome, telefone, endereco, datanascimento, senha } = req.body;
       const usuarioExistente = await usuarioModel.findByPk(id);
       if (!usuarioExistente) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+        return res.status(404).json({ mensagem: 'Usuário não encontrado' });
       }
       // Atualiza os dados do usuario
       const usuarioAtualizado = await usuarioExistente.update(req.body);
@@ -91,20 +92,20 @@ const UsuarioController = {
 
       if (usuario) {
         // Criar um token JWT com uma chave secret
-        const chaveSecreta = "chave";
+        const chaveSecreta = 'chave';
         const token = jwt.sign(
           { id: usuario.id, email: usuario.email },
           chaveSecreta,
-          { expiresIn: "1h" }
+          { expiresIn: '1h' },
         );
 
         return res.json({ token: token });
         // Envia o token como resposta
       }
       // Caso as credenciais estejam incorretas, retornar null
-      return res.status(401).json({ mensagem: "Credenciais inválidas" });
+      return res.status(401).json({ mensagem: 'Credenciais inválidas' });
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
+      console.error('Erro ao fazer login:', error);
       throw error;
     }
   },
