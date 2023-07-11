@@ -1,6 +1,10 @@
 const ProdutosModel = require('../models/Produto');
 const Categoria = require('../models/Categoria');
 const Produto = require('../models/Produto');
+const multer = require('multer')
+const {fileFilter, storage} = require('../config/multerConfig')
+
+const upload = multer({ storage: storage });
 
 const ProdutoController = {
   listar: async (req, res) => {
@@ -23,8 +27,12 @@ const ProdutoController = {
 
   adicionar: async (req, res) => {
     try {
-      const {nome, valor, descricao, usuarioId , foto} = req.body;
-      if (!nome || !valor || !descricao || !usuarioId || foto) {
+      const {nome, valor, descricao, usuarioId, categoriaId} = req.body;
+      // const foto = req.file; 
+      console.log(req.body);
+      console.log(req.file);
+
+      if (!nome || !valor || !descricao || !categoriaId || !usuarioId || !foto) {
         return res.status(400).send({ message: 'Todos os campos devem ser preenchidos' });
       }
       const produto = await ProdutosModel.create({nome, valor, descricao, usuarioId , foto });
