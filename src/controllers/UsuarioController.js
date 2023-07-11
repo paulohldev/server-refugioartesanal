@@ -84,6 +84,34 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
+  listarArtesao: async (req, res) => {
+    try {
+      const usuarios = await usuarioModel.findAll({
+        where: { isArtesao: true },
+      });
+      return res.json(usuarios);
+    } catch (error) {
+      return res.json(error);
+    }
+  },
+  buscarArtesao: async (req, res) => {
+    try {
+      const usuario = await usuarioModel.findByPk(req.params.id, {
+        attributes: ['nome', 'sobrenome', 'isArtesao', 'id'],
+      });
+
+      if (usuario.isArtesao !== true) {
+        return res
+          .status(400)
+          .json({ mensagem: 'Este usuário não é um artesão.' });
+      }
+
+      return res.json(usuario);
+    } catch (error) {
+      return res.json(error);
+    }
+  },
+
   login: async (req, res) => {
     const { email, senha } = req.body;
     try {
