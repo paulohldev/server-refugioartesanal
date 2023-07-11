@@ -40,20 +40,20 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
-  buscarUm: async (req, res) => {
-    try {
-      const { id } = req.params;
+  // buscarUm: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
 
-      const usuario = await usuarioModel.findByPk(id);
+  //     const usuario = await usuarioModel.findByPk(id);
 
-      if (!usuario) {
-        return res.status(400).json({ mensage: 'usuario não existe' });
-      }
-      return res.json(usuario);
-    } catch (error) {
-      return res.json(error);
-    }
-  },
+  //     if (!usuario) {
+  //       return res.status(400).json({ mensage: 'usuario não existe' });
+  //     }
+  //     return res.json(usuario);
+  //   } catch (error) {
+  //     return res.json(error);
+  //   }
+  // },
 
   deletar: async (req, res) => {
     try {
@@ -84,16 +84,18 @@ const UsuarioController = {
       return res.status(400).json(error);
     }
   },
+
   listarArtesao: async (req, res) => {
     try {
-      const usuarios = await usuarioModel.findAll({
+      const artesaos = await usuarioModel.findAll({
         where: { isArtesao: true },
       });
-      return res.json(usuarios);
+      return res.status(200).json(artesaos);
     } catch (error) {
       return res.json(error);
     }
   },
+
   buscarArtesao: async (req, res) => {
     try {
       const usuario = await usuarioModel.findByPk(req.params.id, {
