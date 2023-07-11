@@ -30,6 +30,10 @@ const Produto = sequelize.define('produtos', {
     },
     allowNull: false,
   },
+  foto: {
+    type: DataTypes.BLOB,
+    allowNull: false
+  },
   categoria_id: {
     type: DataTypes.INTEGER,
   },
