@@ -37,20 +37,43 @@ const ProdutoController = {
         const { originalname, filename } = req.file;
         const { nome, valor, descricao, usuarioId, categoria_id } = req.body;
 
-        if (
-          !nome ||
-          !valor ||
-          !descricao ||
-          !categoria_id ||
-          !usuarioId ||
-          !originalname ||
-          !filename
-        ) {
-          console.log('teste: ', req.body);
-          return res
-            .status(400)
-            .send({ message: 'Todos os campos devem ser preenchidos' });
+        const missingFields = [];
+
+        if (!nome) {
+          missingFields.push('nome');
         }
+
+        if (!valor) {
+          missingFields.push('valor');
+        }
+
+        if (!descricao) {
+          missingFields.push('descricao');
+        }
+
+        if (!categoria_id) {
+          missingFields.push('categoria_id');
+        }
+
+        if (!usuarioId) {
+          missingFields.push('usuarioId');
+        }
+
+        if (!originalname) {
+          missingFields.push('originalname');
+        }
+
+        if (!filename) {
+          missingFields.push('filename');
+        }
+
+        if (missingFields.length > 0) {
+          return res.status(400).json({
+            message: 'Campos obrigatórios não preenchidos',
+            missingFields: missingFields,
+          });
+        }
+
         const produto = await ProdutosModel.create({
           nome,
           valor,
@@ -60,11 +83,11 @@ const ProdutoController = {
           filename,
           categoria_id,
         });
+
         return res.status(200).json(produto);
       } catch (error) {
-        return res
-          .status(400)
-          .json({ message: 'Desculpe, ocorreu um erro.', error });
+        console.log(error);
+        return res.status(400).json({ message: 'Desculpe, ocorreu um erro.', error });
       }
     });
   },
