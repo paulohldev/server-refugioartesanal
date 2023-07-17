@@ -1,30 +1,10 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const path = require('path');
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
-  );
-  next();
-});
-const bodyParser = require('body-parser');
-// Configurar a rota para servir as imagens estáticas
-app.use(
-  '/uploads/images',
-  express.static(path.join(__dirname, '..', 'uploads/images')),
-);
-
+const { resolve } = require('path');
+// const bodyParser = require('')
 // Inicia o banco de dados
 require('./database/index');
-
-// Configurar o limite do tamanho do corpo da solicitação
-app.use(bodyParser.json({ limit: '10mb' })); // Aumente o limite de acordo com suas necessidades
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // middlewares
 app.use(express.static(resolve(__dirname, '..', 'uploads')));
