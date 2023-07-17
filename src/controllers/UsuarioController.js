@@ -2,6 +2,7 @@
 // Propriedades e métodos do parâmetro res => http://expressjs.com/en/4x/api.html#res
 const usuarioModel = require('../models/Usuario');
 const jwt = require('jsonwebtoken');
+const ProdutoModel = require('../models/Produto');
 
 const UsuarioController = {
   listar: async (req, res) => {
@@ -102,15 +103,33 @@ const UsuarioController = {
         attributes: ['nome', 'sobrenome', 'isArtesao', 'id'],
       });
 
-      if (usuario.isArtesao !== true) {
+      if (!usuario || !usuario.isArtesao) {
         return res
           .status(400)
           .json({ mensagem: 'Este usuário não é um artesão.' });
       }
 
-      return res.json(usuario);
+      const produto = await ProdutoModel.findAll({
+        attributes: [
+          'url',
+          'id',
+          'nome',
+          'valor',
+          'originalname',
+          'filename',
+          'usuarioId',
+        ],
+      });
+      const dados = {
+        produto,
+        usuario,
+      };
+
+      return res.json(dados);
     } catch (error) {
-      return res.json(error);
+      return res
+        .status(400)
+        .json({ message: 'Desculpe, ocorreu um erro.', error });
     }
   },
 
