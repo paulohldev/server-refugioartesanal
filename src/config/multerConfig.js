@@ -1,7 +1,7 @@
 const multer = require('multer');
 
 // extensão do arquivo e caminho
-const { extname, resolve } = require( 'path');
+const { extname, resolve } = require('path');
 
 // Gera um numero aleatorio
 const aleatorio = Math.floor(Math.random() * 10000 + 10000);

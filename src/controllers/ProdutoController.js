@@ -1,10 +1,10 @@
 const ProdutosModel = require('../models/Produto');
 const Categoria = require('../models/Categoria');
 const Produto = require('../models/Produto');
-const multer = require('multer')
-const {fileFilter, storage} = require('../config/multerConfig')
+const multer = require('multer');
+const multerConfig = require('../config/multerConfig');
 
-const upload = multer({ storage: storage });
+const upload = multer(multerConfig).single('foto');
 
 const ProdutoController = {
   listar: async (req, res) => {
@@ -26,20 +26,47 @@ const ProdutoController = {
   },
 
   adicionar: async (req, res) => {
-    try {
-      const {nome, valor, descricao, usuarioId, categoriaId} = req.body;
-      // const foto = req.file; 
-      console.log(req.body);
-      console.log(req.file);
-
-      if (!nome || !valor || !descricao || !categoriaId || !usuarioId || !foto) {
-        return res.status(400).send({ message: 'Todos os campos devem ser preenchidos' });
+    return upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({
+          errors: [err.code],
+        });
       }
-      const produto = await ProdutosModel.create({nome, valor, descricao, usuarioId , foto });
-      return res.status(200).json(produto);
-    } catch (error) {
-      return res.status(400).json({ message: 'Desculpe, ocorreu um erro.', error });
-    }
+
+      try {
+        const { originalname, filename } = req.file;
+        const { nome, valor, descricao, usuarioId, categoria_id } = req.body;
+
+        if (
+          !nome ||
+          !valor ||
+          !descricao ||
+          !categoria_id ||
+          !usuarioId ||
+          !originalname ||
+          !filename
+        ) {
+          console.log('teste: ', req.body);
+          return res
+            .status(400)
+            .send({ message: 'Todos os campos devem ser preenchidos' });
+        }
+        const produto = await ProdutosModel.create({
+          nome,
+          valor,
+          descricao,
+          usuarioId,
+          originalname,
+          filename,
+          categoria_id,
+        });
+        return res.status(200).json(produto);
+      } catch (error) {
+        return res
+          .status(400)
+          .json({ message: 'Desculpe, ocorreu um erro.', error });
+      }
+    });
   },
   buscarUm: async (req, res) => {
     try {
@@ -57,37 +84,36 @@ const ProdutoController = {
   },
   deletar: async (req, res) => {
     try {
-      const{id}=req.params;
-      const produto= await ProdutosModel.findByPk(id);
-      if(!produto){
-        return res.status(400).json({message:"Produto não existe"});
+      const { id } = req.params;
+      const produto = await ProdutosModel.findByPk(id);
+      if (!produto) {
+        return res.status(400).json({ message: 'Produto não existe' });
       }
       await produto.destroy();
-      
-      return res.status(200).json({message:"Produto Deletado"});
+
+      return res.status(200).json({ message: 'Produto Deletado' });
     } catch (error) {
-      return res.status(200).json({message:"Desculpe, ocorreu um erro."});
+      return res.status(200).json({ message: 'Desculpe, ocorreu um erro.' });
     }
   },
   atualizar: async (req, res) => {
     try {
       const { id } = req.params;
       const { nome, valor, descricao } = req.body;
-      
+
       const produto = await ProdutosModel.findByPk(id);
-      
-      if(!produto){
-        return res.status(400).json({message:"Produto não existe"});
+
+      if (!produto) {
+        return res.status(400).json({ message: 'Produto não existe' });
       }
 
-      const produtoAtualizado=await produto.update(req.body);
-      
+      const produtoAtualizado = await produto.update(req.body);
+
       return res.status(200).json(produtoAtualizado);
     } catch (error) {
-      return res.status(400).json({message:"Desculpe, oorreu um erro."});
+      return res.status(400).json({ message: 'Desculpe, oorreu um erro.' });
     }
   },
-
 };
 
 module.exports = ProdutoController;
