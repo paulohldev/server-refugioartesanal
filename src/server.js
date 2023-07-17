@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const { resolve } = require('path');
+
 // Inicia o banco de dados
 require('./database/index');
 
 // middlewares
+app.use(express.static(resolve(__dirname, '..', 'uploads')));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
