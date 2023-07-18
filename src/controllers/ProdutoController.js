@@ -25,6 +25,19 @@ const ProdutoController = {
     }
   },
 
+  listarPorArtesao: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const produtos = await ProdutosModel.findAll({
+        where: { usuarioId: id },
+      });
+
+      return res.json(produtos);
+    } catch (error) {
+      return res.json(error);
+    }
+  },
+
   adicionar: async (req, res) => {
     return upload(req, res, async (err) => {
       if (err) {
