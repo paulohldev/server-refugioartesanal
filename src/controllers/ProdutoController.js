@@ -35,7 +35,10 @@ const ProdutoController = {
 
       try {
         const { originalname, filename } = req.file;
-        const { nome, valor, descricao, usuarioId, categoria_id } = req.body;
+        const { nome, valor, descricao, categoria_id } = req.body;
+        const { usuarioId } = req;
+
+        console.log('usuario: ', req.usuarioId);
 
         const missingFields = [];
 
@@ -87,7 +90,9 @@ const ProdutoController = {
         return res.status(200).json(produto);
       } catch (error) {
         console.log(error);
-        return res.status(400).json({ message: 'Desculpe, ocorreu um erro.', error });
+        return res
+          .status(400)
+          .json({ message: 'Desculpe, ocorreu um erro.', error });
       }
     });
   },

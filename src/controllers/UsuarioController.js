@@ -143,7 +143,7 @@ const UsuarioController = {
         // Criar um token JWT com uma chave secret
         const chaveSecreta = 'chave';
         const token = jwt.sign(
-          { id: usuario.id, email: usuario.email },
+          { id: usuario.id, email: usuario.email, nome: usuario.nome },
           chaveSecreta,
           { expiresIn: '1h' },
         );
